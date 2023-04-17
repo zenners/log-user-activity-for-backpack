@@ -47,7 +47,13 @@
                 <td id="data-item-new-{{ $key }}">{{ $attributes[$key] }}</td>
             @endif
 
-            <td id="data-item-old-{{ $key }}">{{ $old[$key] ?? null }}</td>
+            @if($key == 'countries')
+                <td id="data-item-old-{{ $key }}">{{ implode($old[$key]) ?? null }}</td>
+
+            @else
+               <td id="data-item-old-{{ $key }}">{{ $old[$key] ?? null }}</td>
+
+            @endif
         </tr>
         @endforeach
     </tbody>
