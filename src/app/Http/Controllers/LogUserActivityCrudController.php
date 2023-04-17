@@ -35,6 +35,7 @@ class LogUserActivityCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $this->crud->enableExportButtons();
         $this->crud->set('show.setFromDb', false);
 
         $this->crud->addColumn([
@@ -86,6 +87,16 @@ class LogUserActivityCrudController extends CrudController
             'type'      => 'model_function',
             'function_name' => 'getTableName',
         ]);
+        
+        $this->crud->addFilter([
+            'name'  => 'agreement_id',
+            'type'  => 'select2',
+            'label' => 'user'
+          ], function() {
+              return \App\Models\User::all()->pluck('email', 'id')->toArray();
+          }, function($value) { // if the filter is active
+              $this->crud->addClause('where', 'causer_id', $value);
+        });
 
         $this->crud->addColumn([
             'name'      => 'causer',
